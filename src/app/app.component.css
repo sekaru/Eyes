@@ -1,4 +1,12 @@
-.sebm-google-map-container {
-    margin: 0;
+agm-map {
     height: 100vh;
+}
+
+td {
+    border-bottom: 1px solid #eee;
+    padding-right: 2em;
+}
+
+.name {
+    float: left;
 }

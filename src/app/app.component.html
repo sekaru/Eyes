@@ -3,8 +3,7 @@
 [longitude]="lng"
 [zoom]="zoom"
 [disableDefaultUI]="true"
-[zoomControl]="false"
-(mapClick)="mapClicked($event)">
+[zoomControl]="false">
 
   <agm-marker 
       *ngFor="let m of markers; let i = index"
@@ -12,11 +11,25 @@
       [latitude]="m.lat"
       [longitude]="m.lng"
       [label]="m.label"
-      [markerDraggable]="m.draggable"
-      (dragEnd)="markerDragEnd(m, $event)">
+      [markerDraggable]="m.draggable">
       
-    <agm-info-window>
-      <strong>{{m.info}}</strong>
-    </agm-info-window>
+    <agm-snazzy-info-window 
+      [closeWhenOthersOpen]="true" 
+      [panOnOpen]="true"
+      [maxWidth]="400">
+      <ng-template>
+          <table>
+            <tr>
+              <th class="name">Name</th>
+              <th>Status</th>
+            </tr>
+          
+            <tr *ngFor="let server of m.servers">
+              <td>{{server.name}}</td>
+              <td>{{getEmoji(server.status)}}</td>
+            </tr>
+          </table>
+      </ng-template>
+    </agm-snazzy-info-window>
   </agm-marker>
 </agm-map>

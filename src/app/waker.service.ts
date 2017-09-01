@@ -11,4 +11,8 @@ export class WakerService {
   getLocs() {
     return this.http.get(this.address + '/server-locs');
   }
+
+  getStatus(id: string) {
+    return this.http.get(this.address + '/server-status?id=' + id);
+  }
 }

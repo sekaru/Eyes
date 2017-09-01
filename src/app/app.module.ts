@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { AgmCoreModule } from '@agm/core';
+import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { AgmCoreModule } from '@agm/core';
     BrowserModule,
     FormsModule,
     HttpModule,
-    AgmCoreModule.forRoot({apiKey: 'AIzaSyAUfG-hBFcvLEGfgYLaMk46o3AJUuyTVKM'})
+    AgmCoreModule.forRoot({apiKey: 'AIzaSyAUfG-hBFcvLEGfgYLaMk46o3AJUuyTVKM'}),
+    AgmSnazzyInfoWindowModule
   ],
   providers: [],
   bootstrap: [AppComponent]
