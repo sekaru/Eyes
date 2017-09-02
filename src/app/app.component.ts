@@ -34,7 +34,7 @@ export class AppComponent {
 
   markerClicked(label: string, index: number) {
     let self = this;
-    
+
     this.markers[index].servers.forEach(server => {
       if(server.status===-1) {
         setTimeout(() => {
