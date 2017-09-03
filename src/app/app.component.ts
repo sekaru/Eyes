@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { WakerService } from './waker.service';
 import * as _ from 'lodash';
+import { differenceInSeconds } from 'date-fns';
 
 @Component({
   selector: 'app-root',
@@ -34,14 +35,19 @@ export class AppComponent {
 
   markerClicked(label: string, index: number) {
     let self = this;
+    let checkInterval = 30;
 
     this.markers[index].servers.forEach(server => {
-      if(server.status===-1) {
+      if(!server.lastCheck || differenceInSeconds(new Date(), server.lastCheck)>=checkInterval) {
+        server.status = -1;
+        
         setTimeout(() => {
           self.wakerService.getStatus(server.id).subscribe(data => {
             server.status = data.json().isUp ? 1 : 0;
           });
         }, 500);
+
+        server.lastCheck = new Date();
       }
     });
   }
@@ -69,5 +75,6 @@ interface Marker {
 interface Server {
   name: string,
   id: string,
-  status: number
+  status: number,
+  lastCheck?: Date
 }
