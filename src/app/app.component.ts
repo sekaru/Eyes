@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { WakerService } from './waker.service';
 import * as _ from 'lodash';
 import { differenceInSeconds } from 'date-fns';
@@ -10,15 +10,27 @@ import { differenceInSeconds } from 'date-fns';
   providers: [WakerService]
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
   zoom: number = 3;
   lat: number = 0;
   lng: number = 0;
 
   markers: Marker[] = [];
 
-  constructor(private wakerService: WakerService) {
-    wakerService.getLocs().subscribe(data => {
+  constructor(private wakerService: WakerService) {}
+
+  ngOnInit() {
+    this.wakerService.init().subscribe(data => {
+      this.wakerService.address = data.text();
+      this.getLocs();      
+    }, 
+    err => {
+      this.getLocs();      
+    });
+  }
+
+  getLocs() {
+    this.wakerService.getLocs().subscribe(data => {
       let locs: any[] = data.json();
 
       locs.forEach(loc => {
@@ -40,7 +52,7 @@ export class AppComponent {
     this.markers[index].servers.forEach(server => {
       if(!server.lastCheck || differenceInSeconds(new Date(), server.lastCheck)>=checkInterval) {
         server.status = -1;
-        
+
         setTimeout(() => {
           self.wakerService.getStatus(server.id).subscribe(data => {
             server.status = data.json().isUp ? 1 : 0;

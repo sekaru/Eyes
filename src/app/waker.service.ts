@@ -3,9 +3,12 @@ import { Http } from '@angular/http';
 
 @Injectable()
 export class WakerService {
-  address: string = 'http://35.156.58.36:3978';
+  public address: string = 'http://35.156.58.36:3978';
 
-  constructor(private http: Http) {
+  constructor(private http: Http) {}
+
+  init() {
+    return this.http.get('http://sleepystudios.net/waker.txt');
   }
 
   getLocs() {
